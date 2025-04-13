@@ -95,9 +95,23 @@ export default function Provider() {
     await setDoc(doc(collection(db, 'service_providers'), user.uid), dataToStore);
     setStatus('Registration successful ✅');
 
-    setTimeout(() => {
-      router.push('/');
-    }, 1500);
+    // Save profile in localStorage before redirecting
+localStorage.setItem(
+  'providerProfile',
+  JSON.stringify({
+    firstName: form.name.split(' ')[0],
+    lastName: form.name.split(' ').slice(1).join(' ') || '',
+    email: user.email || '',
+    phone: form.phoneNumber,
+    category: form.profession,
+    about: '',
+    services: '',
+    image: imageUrl,
+  })
+);
+
+router.push('/providerprofile');
+
   };
 
   return (
