@@ -12,6 +12,7 @@ type Provider = {
   profession: string;
   lat: number;
   lng: number;
+  distance?: number; // Added distance field
 };
 
 const getDistanceFromLatLonInKm = (
@@ -67,20 +68,24 @@ const ServiceProviderFinder: React.FC = () => {
   useEffect(() => {
     if (!userLocation) return;
 
-    const filtered = providers.filter((provider) => {
-      const distance = getDistanceFromLatLonInKm(
-        userLocation.lat,
-        userLocation.lng,
-        provider.lat,
-        provider.lng
-      );
-      const withinDistance = distance <= selectedDistance;
-      const matchesProfession =
-        selectedProfession === "All" || provider.profession === selectedProfession;
-      return withinDistance && matchesProfession;
-    });
+    const filteredWithDistance = providers
+      .map((provider) => {
+        const distance = getDistanceFromLatLonInKm(
+          userLocation.lat,
+          userLocation.lng,
+          provider.lat,
+          provider.lng
+        );
+        return { ...provider, distance };
+      })
+      .filter((provider) => {
+        const withinDistance = provider.distance! <= selectedDistance;
+        const matchesProfession =
+          selectedProfession === "All" || provider.profession === selectedProfession;
+        return withinDistance && matchesProfession;
+      });
 
-    setFiltered(filtered);
+    setFiltered(filteredWithDistance);
   }, [userLocation, providers, selectedDistance, selectedProfession]);
 
   return (
@@ -127,6 +132,11 @@ const ServiceProviderFinder: React.FC = () => {
               />
               <h2 className="text-xl font-semibold">{provider.name}</h2>
               <p className="text-gray-700">{provider.profession}</p>
+              {provider.distance !== undefined && (
+                <p className="text-sm text-gray-500 mb-2">
+                  📍 {provider.distance.toFixed(2)} km away
+                </p>
+              )}
               <a
                 href={`tel:${provider.phoneNumber}`}
                 className="text-blue-500 mt-2 inline-block"
