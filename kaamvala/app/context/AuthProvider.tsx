@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { auth, provider, db } from '@/app/lib/firebase';
-import { onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup, signOut, User as FirebaseUser } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 interface FirestoreUser {
@@ -13,7 +13,7 @@ interface FirestoreUser {
 }
 
 interface AuthContextType {
-  user: any;
+  user: FirebaseUser | null;  // Define the user as FirebaseUser | null
   location: { lat: number | null; lng: number | null };
   locationSaved: boolean;
   login: () => void;
@@ -23,7 +23,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);  // user type updated
   const [location, setLocation] = useState<{ lat: number | null; lng: number | null }>({
     lat: null,
     lng: null,

@@ -1,4 +1,4 @@
-import Image from "next/image";
+
 import Nav from "@/app/components/navbar";
 import Footer from "@/app/components/footer";
 import LandingPage from "@/app/components/landing";

@@ -1,8 +1,7 @@
-"use client"
-
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/app/lib/firebase";
+import Image from 'next/image';
 
 type Provider = {
   id: string;
@@ -125,10 +124,12 @@ const ServiceProviderFinder: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filtered.map((provider) => (
             <div key={provider.id} className="border rounded-xl p-4 shadow-md">
-              <img
+              <Image
                 src={provider.imageUrl}
                 alt={provider.name}
                 className="w-full h-40 object-cover rounded-lg mb-2"
+                width={400} // specify a width for optimization
+                height={200} // specify a height for optimization
               />
               <h2 className="text-xl font-semibold">{provider.name}</h2>
               <p className="text-gray-700">{provider.profession}</p>

@@ -66,7 +66,7 @@ export default function Provider() {
     let imageUrl = '';
     if (image) {
       const fileName = `${user.uid}-${Date.now()}`;
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('provider-imgs')
         .upload(fileName, image);
 
@@ -96,22 +96,21 @@ export default function Provider() {
     setStatus('Registration successful ✅');
 
     // Save profile in localStorage before redirecting
-localStorage.setItem(
-  'providerProfile',
-  JSON.stringify({
-    firstName: form.name.split(' ')[0],
-    lastName: form.name.split(' ').slice(1).join(' ') || '',
-    email: user.email || '',
-    phone: form.phoneNumber,
-    category: form.profession,
-    about: '',
-    services: '',
-    image: imageUrl,
-  })
-);
+    localStorage.setItem(
+      'providerProfile',
+      JSON.stringify({
+        firstName: form.name.split(' ')[0],
+        lastName: form.name.split(' ').slice(1).join(' ') || '',
+        email: user.email || '',
+        phone: form.phoneNumber,
+        category: form.profession,
+        about: '',
+        services: '',
+        image: imageUrl,
+      })
+    );
 
-router.push('/providerprofile');
-
+    router.push('/providerprofile');
   };
 
   return (
@@ -136,25 +135,24 @@ router.push('/providerprofile');
               />
             </div>
             <div>
-  <label className="block text-sm font-medium text-gray-800">Profession</label>
-  <select
-    name="profession"
-    value={form.profession}
-    onChange={handleChange}
-    className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
-  >
-    <option value="">Select your profession</option>
-    <option value="Electrician">Electrician</option>
-    <option value="Plumber">Plumber</option>
-    <option value="Carpenter">Carpenter</option>
-    <option value="Mechanic">Mechanic</option>
-    <option value="Painter">Painter</option>
-    <option value="AC Technician">AC Technician</option>
-    <option value="House Cleaner">House Cleaner</option>
-    <option value="Other">Other</option>
-  </select>
-</div>
-
+              <label className="block text-sm font-medium text-gray-800">Profession</label>
+              <select
+                name="profession"
+                value={form.profession}
+                onChange={handleChange}
+                className="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 bg-white"
+              >
+                <option value="">Select your profession</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Carpenter">Carpenter</option>
+                <option value="Mechanic">Mechanic</option>
+                <option value="Painter">Painter</option>
+                <option value="AC Technician">AC Technician</option>
+                <option value="House Cleaner">House Cleaner</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
           </div>
 
           <div>

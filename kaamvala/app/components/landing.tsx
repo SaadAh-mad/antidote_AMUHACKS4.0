@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 const LandingPage = () => {
   return (
@@ -23,10 +24,12 @@ const LandingPage = () => {
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl w-full px-4">
           <div className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-            <img
+            <Image
               src="/assets/ppl.png"
               alt="Find local service providers"
-              className="mb-4 w-16 h-16 object-contain"
+              width={64}
+              height={64}
+              className="mb-4 object-contain"
             />
             <h3 className="text-lg font-bold text-gray-800 mb-2">Find Service Providers</h3>
             <p className="text-sm text-gray-600">
@@ -35,10 +38,12 @@ const LandingPage = () => {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-            <img
+            <Image
               src="/assets/star.png"
               alt="Check user reviews"
-              className="mb-4 w-16 h-16 object-contain"
+              width={64}
+              height={64}
+              className="mb-4 object-contain"
             />
             <h3 className="text-lg font-bold text-gray-800 mb-2">Check Reviews</h3>
             <p className="text-sm text-gray-600">
@@ -47,10 +52,12 @@ const LandingPage = () => {
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
-            <img
+            <Image
               src="/assets/tick.png"
               alt="Book directly"
-              className="mb-4 w-16 h-16 object-contain"
+              width={64}
+              height={64}
+              className="mb-4 object-contain"
             />
             <h3 className="text-lg font-bold text-gray-800 mb-2">Book Services</h3>
             <p className="text-sm text-gray-600">
