@@ -10,9 +10,52 @@ const LandingPage = () => {
         </p>
       </section>
 
+      <section className="w-screen h-screen flex flex-col items-center justify-start pt-30 bg-white text-center px-4">
+        <h2 className="text-5xl font-semibold text-gray-800 mb-8">
+          Be a Part of KAAMVALA Community
+          </h2>
+          <div className="flex flex-col md:flex-row gap-6 max-w-4xl">
+            <div className="flex-1 bg-gray-100 p-6 rounded-xl shadow-lg">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+                Receive Services
+                </h3>
+                <p className="text-gray-600 text-sm mb-2">
+                  📝 Sign up in just a few clicks to create your account.
+                </p>
+                <p className="text-gray-600 text-sm mb-2">
+                  📍 Allow location access so we can find nearby helpers for you.
+                </p>
+                <p className="text-gray-600 text-sm mb-2">
+                  🔍 Get smart recommendations based on your area and needs.
+                </p>
+                <p className="text-gray-600 text-sm">
+                  📞 Browse profiles and directly call the one that fits best!
+                </p>
+            </div>
+
+            <div className="flex-1 bg-gray-100 p-6 rounded-2xl shadow-lg">
+              <h3 className="text-2xl font-semibold text-gray-800 mb-2">
+                Provide Services
+              </h3>
+              <p className="text-gray-600 text-sm mb-2">
+                📝Create your account through the sign Up option and register yourself.
+              </p>
+              <p className="text-gray-600 text-sm mb-2">
+                🛠️ Add your personal details like name, phone number and services that you provide.
+              </p>
+              <p className="text-gray-600 text-sm mb-2">
+                📲Get all your service requests through a simple phone call.
+              </p>
+              <p className="text-gray-600 text-sm mb-2">
+                ✨There you go! Work your magic!
+              </p>
+            </div>
+          </div>
+      </section>
+
       <section className="w-screen h-screen flex flex-col items-center justify-center bg-gray-50 text-center px-4">
         <h2 className="text-4xl font-semibold text-gray-800 mb-12">
-          How We Work?
+          Why You Should Use KAAMVALA?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full px-4">
           <div className="bg-white p-6 rounded-xl shadow-md flex flex-col items-center text-center">
