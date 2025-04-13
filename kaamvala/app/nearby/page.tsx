@@ -1,147 +1,144 @@
-'use client';
+"use client"
 
-import { useEffect, useState } from 'react';
-import { db, auth } from '../../lib/firebase';
-import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
-import { onAuthStateChanged } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
-interface Provider {
+type Provider = {
+  id: string;
   name: string;
-  email: string;
+  phoneNumber: string;
+  imageUrl: string;
   profession: string;
   lat: number;
   lng: number;
-  imageUrl?: string;
-  distance?: number;
-}
+};
 
-export default function NearbyProvidersPage() {
+const getDistanceFromLatLonInKm = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+): number => {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
+
+const ServiceProviderFinder: React.FC = () => {
   const [providers, setProviders] = useState<Provider[]>([]);
-  const [filteredProviders, setFilteredProviders] = useState<Provider[]>([]);
+  const [filtered, setFiltered] = useState<Provider[]>([]);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [distanceFilter, setDistanceFilter] = useState(5); // default 5 km
+  const [selectedDistance, setSelectedDistance] = useState<number>(5);
+  const [selectedProfession, setSelectedProfession] = useState<string>("All");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        setIsLoggedIn(false);
-        setLoading(false);
-        return;
-      }
-
-      setIsLoggedIn(true);
-
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        const data = userSnap.data();
-        setUserLocation({ lat: data.lat, lng: data.lng });
-      } else {
-        console.log('User location not found');
-      }
-
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (err) => console.error("Location access denied", err)
+    );
   }, []);
 
   useEffect(() => {
     const fetchProviders = async () => {
-      if (!userLocation) return;
-
-      const querySnapshot = await getDocs(collection(db, 'service_providers'));
-      const fetchedProviders: Provider[] = [];
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data() as Provider;
-        const dist = getDistanceFromLatLonInKm(
-          userLocation.lat,
-          userLocation.lng,
-          data.lat,
-          data.lng
-        );
-
-        fetchedProviders.push({ ...data, distance: dist });
-      });
-
-      fetchedProviders.sort((a, b) => a.distance! - b.distance!);
-      setProviders(fetchedProviders);
+      const snapshot = await getDocs(collection(db, "service_providers"));
+      const data: Provider[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Provider[];
+      setProviders(data);
     };
-
     fetchProviders();
-  }, [userLocation]);
+  }, []);
 
   useEffect(() => {
-    const filtered = providers.filter((p) => (p.distance || 0) <= distanceFilter);
-    setFilteredProviders(filtered);
-  }, [providers, distanceFilter]);
+    if (!userLocation) return;
 
-  if (loading) return <p>Loading...</p>;
-  if (!isLoggedIn)
-    return <p className="text-red-600">Please login with Google to view nearby providers 🔒</p>;
+    const filtered = providers.filter((provider) => {
+      const distance = getDistanceFromLatLonInKm(
+        userLocation.lat,
+        userLocation.lng,
+        provider.lat,
+        provider.lng
+      );
+      const withinDistance = distance <= selectedDistance;
+      const matchesProfession =
+        selectedProfession === "All" || provider.profession === selectedProfession;
+      return withinDistance && matchesProfession;
+    });
+
+    setFiltered(filtered);
+  }, [userLocation, providers, selectedDistance, selectedProfession]);
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Nearby Service Providers 📍</h1>
+    <div className="p-4 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Nearby Service Providers</h1>
 
-      <div className="mb-6">
-        <label className="mr-2 font-semibold">Max Distance:</label>
+      <div className="flex gap-4 mb-6">
         <select
-          value={distanceFilter}
-          onChange={(e) => setDistanceFilter(Number(e.target.value))}
-          className="border px-2 py-1 rounded"
+          className="border p-2 rounded"
+          value={selectedDistance}
+          onChange={(e) => setSelectedDistance(Number(e.target.value))}
         >
-          <option value={2}>2 km</option>
-          <option value={5}>5 km</option>
-          <option value={10}>10 km</option>
-          <option value={15}>15 km</option>
+          <option value={5}>Within 5 km</option>
+          <option value={10}>Within 10 km</option>
+          <option value={15}>Within 15 km</option>
+        </select>
+
+        <select
+          className="border p-2 rounded"
+          value={selectedProfession}
+          onChange={(e) => setSelectedProfession(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="Mechanic">Mechanic</option>
+          <option value="AC Technician">AC Technician</option>
+          <option value="House Cleaner">House Cleaner</option>
+          <option value="Plumber">Plumber</option>
+          <option value="Electrician">Electrician</option>
+          <option value="Carpenter">Carpenter</option>
+          <option value="Painter">Painter</option>
         </select>
       </div>
 
-      {filteredProviders.length === 0 ? (
-        <p>No providers found within {distanceFilter} km 😔</p>
+      {filtered.length === 0 ? (
+        <p>No service providers found in this area.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProviders.map((provider, idx) => (
-            <div
-              key={idx}
-              className="border p-4 rounded shadow-sm flex flex-col items-center text-center transition-transform hover:scale-105 hover:shadow-md"
-            >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filtered.map((provider) => (
+            <div key={provider.id} className="border rounded-xl p-4 shadow-md">
               <img
-                src={provider.imageUrl || '/stickman.png'}
-                alt={`${provider.name}'s profile`}
-                className="w-24 h-24 object-cover rounded-full border mb-3"
+                src={provider.imageUrl}
+                alt={provider.name}
+                className="w-full h-40 object-cover rounded-lg mb-2"
               />
-              <h2 className="font-semibold text-lg">{provider.name}</h2>
-              <p className="text-sm text-gray-700">{provider.profession}</p>
-              <p className="text-sm text-gray-500">{provider.email}</p>
-              <p className="text-sm text-gray-500">📍 {provider.distance?.toFixed(2)} km away</p>
+              <h2 className="text-xl font-semibold">{provider.name}</h2>
+              <p className="text-gray-700">{provider.profession}</p>
+              <a
+                href={`tel:${provider.phoneNumber}`}
+                className="text-blue-500 mt-2 inline-block"
+              >
+                📞 {provider.phoneNumber}
+              </a>
             </div>
           ))}
         </div>
       )}
-    </main>
+    </div>
   );
-}
+};
 
-// Distance calculation helper
-function getDistanceFromLatLonInKm(lat1: number, lon1: number, lat2: number, lon2: number) {
-  const R = 6371;
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  return R * c;
-}
-
-function deg2rad(deg: number) {
-  return deg * (Math.PI / 180);
-}
+export default ServiceProviderFinder;
