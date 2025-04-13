@@ -29,31 +29,23 @@ function Footer() {
             <h3 className="text-lg font-semibold">Services</h3>
             <ul className="space-y-1">
               <li>
-                <Link href="/">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Plumbing
-                  </a>
+                <Link href="/" className="text-gray-400 hover:text-gray-950">
+                  Plumbing
                 </Link>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Electrical
-                  </a>
+                <Link href="/about" className="text-gray-400 hover:text-gray-950">
+                  Electrical
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Gardening
-                  </a>
+                <Link href="/contact" className="text-gray-400 hover:text-gray-950">
+                  Gardening
                 </Link>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Carpentry
-                  </a>
+                <Link href="/about" className="text-gray-400 hover:text-gray-950">
+                  Carpentry
                 </Link>
               </li>
             </ul>
@@ -63,24 +55,18 @@ function Footer() {
             <h3 className="text-lg font-semibold">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Home
-                  </a>
+                <Link href="/" className="text-gray-400 hover:text-gray-950">
+                  Home
                 </Link>
               </li>
               <li>
-                <Link href="/about">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    About Us
-                  </a>
+                <Link href="/about" className="text-gray-400 hover:text-gray-950">
+                  About Us
                 </Link>
               </li>
               <li>
-                <Link href="/contact">
-                  <a className="text-gray-400 hover:text-gray-950">
-                    Contact
-                  </a>
+                <Link href="/contact" className="text-gray-400 hover:text-gray-950">
+                  Contact
                 </Link>
               </li>
             </ul>
