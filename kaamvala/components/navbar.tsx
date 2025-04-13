@@ -14,7 +14,13 @@ export default function Nav() {
           Kaamvala
         </div>
 
+        
         <div className="hidden md:flex items-center gap-8">
+        <Link href="/provider" className="text-blue-600 underline">
+      <button className='bg-blue-600 text-white px-4 py-2 rounded-lg'>
+         Service Provider
+         </button> </Link>
+                 
           <Link href={"/dashboard"}>
             <div>Location</div>
           </Link>
