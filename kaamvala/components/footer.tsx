@@ -13,13 +13,13 @@ function Footer() {
              </p>
              <div className="flex justify-center md:justify-start mt-4 space-x-4">
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-                <Twitter size={20} className="text-gray-400 hover:text-white " />
+                <Twitter size={20} className="text-gray-400 hover:text-blue-400 " />
               </a>
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <Facebook size={20} className="text-gray-400 hover:text-white " />
+                <Facebook size={20} className="text-gray-400 hover:text-blue-400 " />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <Instagram size={20} className="text-gray-400 hover:text-white " />
+                <Instagram size={20} className="text-gray-400 hover:text-blue-400 " />
               </a>
             </div>
             
@@ -29,22 +29,22 @@ function Footer() {
             <h3 className="text-lg font-semibold">Services</h3>
             <ul className="space-y-1">
               <li>
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hovertext-gray-950">
                   Plumbing
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-gray-400 hover:text-white">
+                <a href="/about" className="text-gray-400 hover:text-gray-950">
                   Electrical
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-gray-400 hover:text-white">
+                <a href="/contact" className="text-gray-400 hover:text-gray-950">
                   Gardening
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-gray-400 hover:text-white">
+                <a href="/about" className="text-gray-400 hover:text-gray-950">
                   Carpentary
                 </a>
               </li>
@@ -55,17 +55,17 @@ function Footer() {
             <h3 className="text-lg font-semibold">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <a href="/" className="text-gray-400 hover:text-white">
+                <a href="/" className="text-gray-400 hover:text-gray-950">
                   Home
                 </a>
               </li>
               <li>
-                <a href="/about" className="text-gray-400 hover:text-white">
+                <a href="/about" className="text-gray-400 hover:text-gray-950">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-gray-400 hover:text-white">
+                <a href="/contact" className="text-gray-400 hover:text-gray-950">
                   Contact
                 </a>
               </li>
