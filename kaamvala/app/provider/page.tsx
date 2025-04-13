@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { db, auth } from '@/lib/firebase';
+import { db, auth } from '@/app/lib/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 import { useRouter } from 'next/navigation';
 
 export default function Provider() {

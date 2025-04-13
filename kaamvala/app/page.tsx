@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Nav from "@/components/navbar";
-import Footer from "@/components/footer";
-import LandingPage from "@/components/landing";
+import Nav from "@/app/components/navbar";
+import Footer from "@/app/components/footer";
+import LandingPage from "@/app/components/landing";
 
 export default function App() {
   return (
